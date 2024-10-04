@@ -1,0 +1,399 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAZZE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1c1c1c; /* Darker background */
+            color: #f4f4f4; /* Light text */
+            margin: 0;
+            display: flex;
+            flex-direction: column; /* Change to column layout */
+            height: 100vh; /* Full height */
+        }
+
+        /* Header Styles */
+        #header {
+            background-color: #2f2f2f; /* Darker header */
+            display: flex;
+            justify-content: space-between; /* Space between logo and dropdown */
+            align-items: center; /* Center items vertically */
+            padding: 5px 20px; /* Reduced padding */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+            width: 100%; /* Full width */
+            position: fixed; /* Fixed position */
+            top: 0; /* Stay at the top */
+            left: 0; /* Align to the left */
+            z-index: 1000; /* Ensure it stays above other content */
+        }
+        #header h1 {
+            font-size: 1.2em; /* Increased text size */
+            margin: 0; /* Remove margin */
+            display: flex; /* Flexbox for aligning icon and text */
+            align-items: center; /* Center vertically */
+        }
+        #header h1 i {
+            margin-right: 8px; /* Space between icon and text */
+            font-size: 1.2em; /* Icon size */
+            color: #007bff; /* Change robot icon color */
+        }
+
+        /* Small Blue Robot Icon */
+        #robotIcon {
+            color: #007bff; /* Blue color */
+            font-size: 1.5em; /* Smaller size */
+            margin: 0 50px; /* Space on either side */
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative; /* Position for dropdown */
+            margin-right: 30px; /* Push dropdown to the right */
+        }
+        .dropdown .dropbtn {
+            background-color: #007bff; /* Button color */
+            color: white;
+            padding: 8px 15px; /* Reduced padding */
+            font-size: 0.85em; /* Font size */
+            border: none; /* No border */
+            border-radius: 4px; /* Rounded corners */
+            cursor: pointer; /* Pointer on hover */
+            transition: background 0.3s; /* Smooth transition */
+        }
+        .dropdown .dropbtn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        .dropdown-content {
+            display: none; /* Hidden by default */
+            position: absolute; /* Positioning for dropdown items */
+            background-color: #2f2f2f; /* Same background as header */
+            min-width: 160px; /* Minimum width */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Shadow */
+            right: 0; /* Align dropdown to the right */
+            z-index: 1; /* Ensure it appears above other elements */
+        }
+        .dropdown-content a {
+            color: white; /* White text */
+            padding: 10px 15px; /* Padding */
+            text-decoration: none; /* No underline */
+            display: block; /* Block display */
+            transition: background 0.3s; /* Smooth transition */
+        }
+        .dropdown-content a:hover {
+            background-color: #007bff; /* Change background on hover */
+        }
+        .dropdown:hover .dropdown-content {
+            display: block; /* Show dropdown on hover */
+        }
+
+        /* Sidebar Styles */
+        #sidebar {
+            width: 220px; /* Adjusted width for thinner sidebar */
+            background: linear-gradient(135deg, #4b4b4b, #2f2f2f); /* Darker gradient background */
+            padding: 15px;
+            color: #fff;
+            border-radius: 0 8px 8px 0;
+            height: calc(100vh - 60px); /* Adjust height to fit header */
+            position: fixed; /* Fixed position */
+            top: 40px; /* Below the header */
+            left: 0; /* Align to the left */
+            overflow-y: auto; /* Enable scrollbar */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Ensures the "Log Out" button stays at the bottom */
+        }
+
+        /* Title for Sidebar */
+        #sidebar h1 {
+            font-size: 1.5em; /* Larger title size */
+            margin: 0; /* Remove margin */
+            text-align: center; /* Center the title */
+            padding-bottom: 15px; /* Space below the title */
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3); /* Separator line */
+        }
+
+        /* Optimized User Profile Section */
+        #userProfileSection {
+            background-color: #333; /* Slightly different color */
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 20px; /* Increased bottom margin to prevent overlap */
+            text-align: left; /* Align text to the left */
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+            align-items: center; /* Center items horizontally */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Added shadow for a sleek look */
+        }
+        #userProfileSection img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px; /* Space between image and text */
+            border: 2px solid #fff; /* Profile picture border */
+        }
+        #userProfileSection .default-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #555; /* Background for the icon */
+            border-radius: 50%; /* Make it circular */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px; /* Space between icon and text */
+            color: #fff;
+            font-size: 1.5em; /* Icon size */
+        }
+        #userProfileSection h2 {
+            margin: 0; /* Remove margins for better alignment */
+            font-size: 1.2em;
+        }
+        #userProfileSection p {
+            margin: 0;
+            font-size: 0.85em;
+            color: #ccc;
+        }
+        #userProfileSection .btnGroup {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 10px;
+        }
+        #userProfileSection .btnGroup button {
+            margin-bottom: 8px;
+            padding: 6px 12px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        #userProfileSection .btnGroup button:last-child {
+            background-color: #28a745; /* This was the old "Log Out" button; now it's the "New Project" button */
+        }
+        #userProfileSection .btnGroup button:hover {
+            background-color: #218838;
+        }
+        #userProfileSection .icon {
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+        #userProfileSection .icon a {
+            color: #fff;
+            font-size: 1.4em;
+            transition: color 0.3s;
+        }
+        #userProfileSection .icon a:hover {
+            color: #007bff;
+        }
+        #userProfileSection .stats {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 0.8em;
+            color: #ddd;
+        }
+
+        /* Sidebar content */
+        #sidebar h3 {
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3); /* Separator line */
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        #sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: flex; /* Changed to flex for alignment */
+            align-items: center; /* Center items vertically */
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+            margin: 5px 0;
+        }
+        #sidebar a i {
+            margin-right: 10px; /* Space between icon and text */
+        }
+        #sidebar a:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* Light background on hover */
+        }
+
+        /* Log Out Button */
+        #logOutButton {
+            background-color: #ff6347; /* Coral color for log out */
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+            margin-top: 20px; /* Space above the button */
+        }
+        #logOutButton:hover {
+            background-color: #ff4500; /* Darker coral on hover */
+        }
+
+        /* Main Content Area */
+        #mainContent {
+            margin-left: 240px; /* Space for sidebar */
+            padding: 20px;
+            padding-top: 80px; /* Space below header */
+            flex: 1; /* Allow main content to grow */
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+            overflow-y: auto; /* Allow scrolling if content overflows */
+        }
+
+        /* Introductory Notice */
+        #introNotice {
+            background-color: #007bff; /* Blue background */
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            position: relative; /* Position for close button */
+            transition: opacity 0.3s; /* Smooth transition */
+        }
+        #introNotice button {
+            background: none; /* No background */
+            border: none; /* No border */
+            color: #fff; /* White text */
+            font-size: 1.2em; /* Button size */
+            position: absolute; /* Position for close button */
+            right: 15px; /* Align to the right */
+            top: 15px; /* Align to the top */
+            cursor: pointer; /* Pointer on hover */
+        }
+
+        /* Prompt Area */
+        #promptArea {
+            background-color: #fff; /* White background for prompt */
+            padding: 20px; /* Padding around prompt */
+            border-radius: 8px; /* Rounded corners */
+            margin-bottom: 20px; /* Space below */
+            flex: 1; /* Allow prompt area to grow */
+            display: flex; /* Flexbox for prompt */
+            flex-direction: column; /* Stack prompt input and submit vertically */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Added shadow for depth */
+        }
+        #promptInput {
+            resize: none; /* Prevent resizing */
+            height: 80px; /* Increased height */
+            border: 1px solid #ccc; /* Border color */
+            border-radius: 4px; /* Rounded corners */
+            padding: 10px; /* Padding */
+            font-size: 1em; /* Font size */
+            margin-bottom: 10px; /* Space below */
+            outline: none; /* Remove outline */
+            transition: border 0.3s; /* Smooth transition for border */
+        }
+        #promptInput:focus {
+            border-color: #007bff; /* Blue border on focus */
+        }
+        #submitButton {
+            background-color: #007bff; /* Button color */
+            color: white; /* Button text color */
+            border: none; /* No border */
+            border-radius: 4px; /* Rounded corners */
+            padding: 10px; /* Padding */
+            cursor: pointer; /* Pointer on hover */
+            font-size: 1em; /* Font size */
+            transition: background 0.3s; /* Smooth transition */
+        }
+        #submitButton:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        /* Response Box */
+        #responseBox {
+            background-color: #f4f4f4; /* Grey background for responses */
+            border-radius: 8px; /* Rounded corners */
+            padding: 15px; /* Padding */
+            margin-bottom: 20px; /* Space below */
+            border: 1px solid #ccc; /* Border color */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Added shadow for depth */
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1><i class="fas fa-robot"></i> MAZZE</h1>
+        <i id="robotIcon" class="fas fa-robot"></i> <!-- Small Blue Robot Icon -->
+        <div class="dropdown">
+            <button class="dropbtn">Menu <i class="fas fa-cog"></i></button>
+            <div class="dropdown-content">
+                <a href="#">Profile Settings</a>
+                <a href="#">Account Settings</a>
+                <a href="#">Help</a>
+                <a href="#">About</a>
+                <a href="#">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <div id="userProfileSection">
+            <div class="default-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <h2>Username</h2>
+            <p>User Role</p>
+            <div class="btnGroup">
+                <button>New Project</button>
+                <button>Settings</button>
+            </div>
+            <div class="icon">
+                <a href="#"><i class="fas fa-bell"></i></a>
+                <a href="#"><i class="fas fa-envelope"></i></a>
+                <a href="#"><i class="fas fa-cog"></i></a>
+            </div>
+            <div class="stats">
+                <span>Projects: 5</span>
+                <span>Tasks: 12</span>
+            </div>
+        </div>
+        <h1>Tools</h1>
+        <h3>Recent Projects</h3>
+        <a href="#"><i class="fas fa-folder"></i> Project 1</a>
+        <a href="#"><i class="fas fa-folder"></i> Project 2</a>
+        <a href="#"><i class="fas fa-folder"></i> Project 3</a>
+        <h3>Other Tools</h3>
+        <a href="#"><i class="fas fa-code"></i> Code Snippets</a>
+        <a href="#"><i class="fas fa-cogs"></i> API Integrations</a>
+        <a href="#"><i class="fas fa-question-circle"></i> Documentation</a>
+        <button id="logOutButton">Log Out</button>
+    </div>
+
+    <div id="mainContent">
+        <!-- Introductory Notice -->
+        <div id="introNotice">
+            <p>Welcome to MAZZE.AI, your AI Coding Assistant! Here, you can ask coding questions, get explanations, and find resources to enhance your programming skills. Click the "X" to close this notice.</p>
+            <button id="closeNotice">&times;</button>
+        </div>
+
+        <div id="promptArea">
+            <textarea id="promptInput" placeholder="Type your question..."></textarea>
+            <button id="submitButton">Submit</button>
+        </div>
+        <div id="responseBox">
+            <!-- Placeholder for AI responses -->
+            <h3>Response:</h3>
+            <p>Your AI-generated response will appear here.</p>
+        </div>
+    </div>
+
+    <script>
+        // Script to close the introductory notice
+        document.getElementById("closeNotice").addEventListener("click", function() {
+            document.getElementById("introNotice").style.display = "none"; // Hide the notice
+        });
+    </script>
+</body>
+</html>
